@@ -12,6 +12,8 @@ app.use(logger);
 
 const eventoRoutes = require("./routes/eventoRoutes");
 const inscricaoRoutes = require("./routes/inscricaoRoutes");
+const responseTime = require("./middlewares/responseTime");
+app.use(responseTime);
 
 // ... todas as rotas acima ...
 // Middleware de rota não encontrada (sempre por último!)
@@ -32,6 +34,11 @@ app.get("/", (req, res) => {
         },
     });
 });
+
+const errorHandler = require("./middlewares/errorHandler");
+// ... todas as rotas ...
+// ... notFound ...
+app.use(errorHandler); // Sempre por último!
 
 
 module.exports = app;

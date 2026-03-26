@@ -3,6 +3,10 @@ const ParticipanteModel = require("../models/ParticipanteModel");
 function index(req, res) {
     const participantes = ParticipanteModel.listarTodos();
     res.json(participantes);
+
+    
+}  {
+    next(erro)
 }
 
 function show(req, res) {
