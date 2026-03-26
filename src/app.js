@@ -9,10 +9,15 @@ app.use(express.json());
 
 const eventoRoutes = require("./routes/eventoRoutes");
 const inscricaoRoutes = require("./routes/inscricaoRoutes");
+const cors = require("cors");
 
+app.use(cors());
 app.use("/eventos", eventoRoutes);
 app.use("/inscricoes", inscricaoRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
+
 
 app.get("/", (req, res) => {
     res.json ({ mensagem: "API de Notificação",
