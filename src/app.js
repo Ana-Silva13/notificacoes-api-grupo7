@@ -7,6 +7,9 @@ exports.app = app;
 
 app.use(express.json());
 
+const logger = require("./middlewares/logger");
+app.use(logger);
+
 const eventoRoutes = require("./routes/eventoRoutes");
 const inscricaoRoutes = require("./routes/inscricaoRoutes");
 
