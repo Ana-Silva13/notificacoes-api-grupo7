@@ -7,9 +7,17 @@ exports.app = app;
 
 app.use(express.json());
 
+const logger = require("./middlewares/logger");
+app.use(logger);
+
 const eventoRoutes = require("./routes/eventoRoutes");
 const inscricaoRoutes = require("./routes/inscricaoRoutes");
 const cors = require("cors");
+
+// ... todas as rotas acima ...
+// Middleware de rota não encontrada (sempre por último!)
+const notFound = require("./middlewares/notFound");
+app.use(notFound);
 
 app.use(cors());
 app.use("/eventos", eventoRoutes);
