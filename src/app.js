@@ -14,17 +14,16 @@ const eventoRoutes = require("./routes/eventoRoutes");
 const inscricaoRoutes = require("./routes/inscricaoRoutes");
 const cors = require("cors");
 const responseTime = require("./middlewares/responseTime");
-app.use(responseTime);
+const errorHandler = require("./middlewares/errorHandler");
 
-// ... todas as rotas acima ...
-// Middleware de rota não encontrada (sempre por último!)
-const notFound = require("./middlewares/notFound");
-app.use(notFound);
+
 
 app.use(cors());
 app.use("/eventos", eventoRoutes);
 app.use("/inscricoes", inscricaoRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(responseTime);
+app.use(errorHandler);
 
 
 
@@ -40,10 +39,6 @@ app.get("/", (req, res) => {
     });
 });
 
-const errorHandler = require("./middlewares/errorHandler");
-// ... todas as rotas ...
-// ... notFound ...
-app.use(errorHandler); // Sempre por último!
 
 
 module.exports = app;

@@ -25,9 +25,14 @@ return novoParticipante;
 }
 function atualizar(id, dados) {
 const index = participantes.findIndex((p) => p.id === id);
-
-
+if (index === -1) {
+return null;    
 }
+
+participantes[index] = { id, ...dados };
+return participantes[index];
+}
+
 function deletar(id) {
 const index = participantes.findIndex((p) => p.id === id);
 if (index !== -1) {

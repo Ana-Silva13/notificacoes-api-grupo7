@@ -30,14 +30,14 @@ function buscarPorId(id) {
 
 function criar(dados) {
     const novoEvento = {
-        id: proximoId, 
+        id: proximoID, 
         nome: dados.nome,
-        descricao: dados.descrocao,
+        descricao: dados.descricao,
         data: dados.data,
         capacidade: dados.capacidade,
     };
 
-    proximoId++;
+    proximoID++;
     eventos.push(novoEvento);
     return novoEvento;
 }

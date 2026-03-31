@@ -1,5 +1,5 @@
 class AppError extends Error {
-    construstor(mensagem, statusCode) {
+    constructor(mensagem, statusCode) {
         super(mensagem);
         this.statusCode = statusCode;
         this.name="AppError";
@@ -20,3 +20,9 @@ class ValidationError extends AppError{
 
     }
 }
+
+module.exports = {
+    AppError,
+    NotFoundError,
+    ValidationError
+};
