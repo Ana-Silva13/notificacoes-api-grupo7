@@ -22,6 +22,8 @@ function errorHandler(err, req, res, next) {
         console.error(err.stack);
         payloadDeErro.stack = err.stack;
     }
+
+    res.status(statusCode).json(resposta);
 }
 
 module.exports = errorHandler;
