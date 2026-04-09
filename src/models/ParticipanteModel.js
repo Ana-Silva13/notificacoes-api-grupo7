@@ -1,7 +1,7 @@
 let participantes = [
-{ id: 1, nome: "Ana Silva", email: "ana@email.com" },
-{ id: 2, nome: "Carlos Souza", email: "carlos@email.com" },
-{ id: 3, nome: "Maria Santos", email: "maria@email.com" },
+    { id: 1, nome: "Ana Silva", email: "ana@email.com" },
+    { id: 2, nome: "Carlos Souza", email: "carlos@email.com" },
+    { id: 3, nome: "Maria Santos", email: "maria@email.com" },
 ];
 let proximoId = 4;
 
@@ -13,39 +13,39 @@ function buscarPorId(id) {
     return participantes.find((p) => p.id === id);
 }
 function criar(dados) {
-const novoParticipante = {
-id: proximoId,
-nome: dados.nome,
-email: dados.email,
-};
+    const novoParticipante = {
+        id: proximoId,
+        nome: dados.nome,
+        email: dados.email,
+    };
 
-proximoId++;
-participantes.push(novoParticipante);
-return novoParticipante;
+    proximoId++;
+    participantes.push(novoParticipante);
+    return novoParticipante;
 }
 function atualizar(id, dados) {
-const index = participantes.findIndex((p) => p.id === id);
-if (index === -1) {
-return null;    
-}
+    const index = participantes.findIndex((p) => p.id === id);
+    if (index === -1) {
+        return null;
+    }
 
-participantes[index] = { id, ...dados };
-return participantes[index];
+    participantes[index] = { id, ...dados };
+    return participantes[index];
 }
 
 function deletar(id) {
-const index = participantes.findIndex((p) => p.id === id);
-if (index !== -1) {
-participantes.splice(index, 1);
-return true;
-}
+    const index = participantes.findIndex((p) => p.id === id);
+    if (index !== -1) {
+        participantes.splice(index, 1);
+        return true;
+    }
 
-return false;
+    return false;
 }
 module.exports = {
-listarTodos,
-buscarPorId,
-criar,
-atualizar,
-deletar,
+    listarTodos,
+    buscarPorId,
+    criar,
+    atualizar,
+    deletar,
 };

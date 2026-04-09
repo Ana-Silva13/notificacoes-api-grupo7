@@ -1,9 +1,8 @@
+const EventoService = require("../services/EventoService");
 
-const EventoModel = require("../models/EventoModel");
-const { NotFoundError, ValidationError } = require("../errors/AppError");
 function index(req, res, next) {
     try {
-        const eventos = EventoModel.listarTodos();
+        const eventos = EventoService.listarTodos();
         res.json(eventos);
     } catch (erro) {
         next(erro);
@@ -12,10 +11,7 @@ function index(req, res, next) {
 function show(req, res, next) {
     try {
         const id = parseInt(req.params.id);
-        const evento = EventoModel.buscarPorId(id);
-        if (!evento) {
-            throw new NotFoundError("Evento");
-        }
+        const evento = EventoService.buscarPorId(id);
         res.json(evento);
     } catch (erro) {
         next(erro);
@@ -23,25 +19,7 @@ function show(req, res, next) {
 }
 function store(req, res, next) {
     try {
-        const { nome, descricao, data, local, capacidade } = req.body;
-
-        const erros = validar([
-            isRequired(nome, "Nome"),
-            isRequired(data, "Data"),
-            minLength(nome, 3, "Nome"),
-            isPositiveInteger(capacidade, "Capacidade"),
-        ]);
-        if (erros) {
-            throw new ValidationError(erros.join("; "));
-        }
-        const novoEvento = EventoModel.criar({
-            nome,
-            descricao,
-            data,
-            local,
-
-            capacidade,
-        });
+        const novoEvento = EventoService.criar(req.body);
         res.status(201).json(novoEvento);
     } catch (erro) {
         next(erro);
@@ -50,22 +28,7 @@ function store(req, res, next) {
 function update(req, res, next) {
     try {
         const id = parseInt(req.params.id);
-        const { nome,  capacidade } = req.body;
-
-        const erros = validar([
-            minLength(nome, 3, "Nome"),
-            isPositiveInteger(capacidade, "Capacidade"),
-        ]);
-        if (erros) {
-            throw new ValidationError(erros.join("; "));
-        }
-
-
-        const eventoAtualizado = EventoModel.atualizar(id, req.body);
-        if (!eventoAtualizado) {
-            throw new NotFoundError("Evento");
-        }
-
+        const eventoAtualizado = EventoService.atualizar(id, req.body);
         res.json(eventoAtualizado);
     } catch (erro) {
         next(erro);
@@ -73,15 +36,12 @@ function update(req, res, next) {
 }
 function destroy(req, res, next) {
     try {
+
         const id = parseInt(req.params.id);
-        const eventoDeletado = EventoModel.deletar(id);
-        if (!eventoDeletado) {
-            throw new NotFoundError("Evento");
-        }
+        EventoService.deletar(id);
         res.status(204).send();
     } catch (erro) {
         next(erro);
     }
 }
-
 module.exports = { index, show, store, update, destroy };

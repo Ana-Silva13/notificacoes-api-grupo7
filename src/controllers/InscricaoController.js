@@ -1,57 +1,42 @@
-// src/controllers/InscricaoController.js
-const InscricaoModel = require("../models/inscricaoModel");
-const { ValidationError, NotFoundError } = require("../errors/AppError");
+const InscricaoService = require("../services/InscricaoService");
 
-// POST /inscricoes — criar uma inscrição
-function store(req, res) {
+function criar(req, res, next) {
     try {
-        const { eventoId, participanteId } = req.body;
+        const novaInscricao = InscricaoService.criar(req.body);
+        res.status(201).json(novaInscricao);
+    } catch (error) {
+        next(error);
+    }
+}
 
-        if (!eventoId || !participanteId) {
-            return res
-                .status(400)
-                .json({ erro: "eventoId e participanteId são obrigatórios" });
-        }
-        const resultado = InscricaoModel.criar(
-            parseInt(eventoId),
-            parseInt(participanteId),
-        );
-        // Se o resultado tem a propriedade "erro", algo deu errado
-        if (resultado.erro) {
-            return res.status(400).json(resultado);
-        }
-        res.status(201).json(resultado);
-    } catch (erro) {
-        next(erro);
+function listarTodas(req, res, next) {
+    try {
+        const inscricoes = InscricaoService.listarTodas();
+        res.json(inscricoes);
+    } catch (error) {
+        next(error);
+    }
+}
+
+function listarPorEvento(req, res, next) {
+    try {
+        const { eventoId } = req.params;
+        const inscricoes = InscricaoService.listarPorEvento(eventoId);
+        res.json(inscricoes);
+    } catch (error) {
+        next(error);
+    }
+}
+
+function cancelar(req, res, next) {
+    try {
+        const { id } = req.params;
+        InscricaoService.cancelar(id);
+        res.status(204).send(); 
+    } catch (error) {
+        next(error);
     }
 }
 
 
-// GET /inscricoes — listar todas
-function index(req, res) {
-    const incricoes = InscricaoModel.listarTodas();
-    res.json(incricoes);
-    // Implemente: retorne todas as inscrições
-
-}
-
-
-// GET /inscricoes/evento/:eventoId — listar inscrições de um evento
-function listarPorEvento(req, res) {
-    const eventoId = parseInt(req.params.eventoId);
-    res.json(InscricaoModel.listarPorEvento(eventoId));
-}
-
-
-// PATCH /inscricoes/:id/cancelar — cancelar uma inscrição
-function cancelar(req, res) {
-    const id = parseInt(req.params.id);
-    const inscricao = InscricaoModel.cancelar(id);
-    if (!inscricao) {
-        return res.status(404).json({ erro: "Inscrição não encontrada" });
-    }
-    res.json(inscricao);
-}
-
-
-module.exports = { store, index, listarPorEvento, cancelar };
+module.exports = { store: criar, index: listarTodas, listarPorEvento, cancelar };

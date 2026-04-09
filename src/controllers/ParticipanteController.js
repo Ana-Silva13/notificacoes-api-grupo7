@@ -1,10 +1,10 @@
-const ParticipanteModel = require("../models/ParticipanteModel");
+const ParticipanteService = require("../services/ParticipanteService");
 const { isRequired, minLength, isEmail, validar } = require("../helpers/validators");
 const { ValidationError, NotFoundError } = require("../errors/AppError");
 
 function index(req, res, next) {
     try {
-        const participantes = ParticipanteModel.listarTodos();
+        const participantes = ParticipanteService.listarTodos();
         res.json(participantes);
     } catch (erro) {
         next(erro);
@@ -14,7 +14,7 @@ function index(req, res, next) {
 function show(req, res, next) {
     try {
         const id = parseInt(req.params.id);
-        const participante = ParticipanteModel.buscarPorId(id);
+        const participante = ParticipanteService.buscarPorId(id);
 
         if (!participante) {
             // Mudou aqui: usando a classe de erro centralizada da Aula 7
@@ -43,7 +43,7 @@ function store(req, res, next) {
         }
         // -------------------------------------
 
-        const novoParticipante = ParticipanteModel.criar({ nome, email });
+        const novoParticipante = ParticipanteService.criar({ nome, email });
         res.status(201).json(novoParticipante);
     } catch (erro) {
         next(erro);
@@ -65,7 +65,7 @@ function update(req, res, next) {
             throw new ValidationError(erros.join("; "));
         }
 
-        const participanteAtualizado = ParticipanteModel.atualizar(id, { nome, email });
+        const participanteAtualizado = ParticipanteService.atualizar(id, { nome, email });
 
         if (!participanteAtualizado) {
             throw new NotFoundError("Participante");
@@ -80,7 +80,7 @@ function update(req, res, next) {
 function destroy(req, res, next) {
     try {
         const id = parseInt(req.params.id);
-        const deletado = ParticipanteModel.deletar(id);
+        const deletado = ParticipanteService.deletar(id);
 
         if (!deletado) {
             throw new NotFoundError("Participante");

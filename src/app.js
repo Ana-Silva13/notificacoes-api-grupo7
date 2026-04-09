@@ -1,44 +1,47 @@
 const express = require("express");
-const app = express();
+const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swagger");
-
-exports.app = app;
-
+const app = express();
+// ============================================
+// MIDDLEWARES GLOBAIS
+// ============================================
 app.use(express.json());
-
-const logger = require("./middlewares/logger");
-app.use(logger);
-
-const eventoRoutes = require("./routes/eventoRoutes");
-const inscricaoRoutes = require("./routes/inscricaoRoutes");
-const cors = require("cors");
-const responseTime = require("./middlewares/responseTime");
-const errorHandler = require("./middlewares/errorHandler");
-
-
-
 app.use(cors());
-app.use("/eventos", eventoRoutes);
-app.use("/inscricoes", inscricaoRoutes);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const responseTime = require("./middlewares/responseTime");
 app.use(responseTime);
-app.use(errorHandler);
-
-
-
-
+// ============================================
+// DOCUMENTAÇÃO
+// ============================================
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// ============================================
+// ROTAS
+// ============================================
+const eventoRoutes = require("./routes/eventoRoutes");
+const participanteRoutes = require("./routes/participanteRoutes");
+const inscricaoRoutes = require("./routes/inscricaoRoutes");
+app.use("/eventos", eventoRoutes);
+app.use("/participantes", participanteRoutes);
+app.use("/inscricoes", inscricaoRoutes);
+// Rota raiz (informativa)
 app.get("/", (req, res) => {
-    res.json ({ mensagem: "API de Notificação",
+    res.json({
+        mensagem: "API de Notificações",
+        versao: "1.0.0",
+        documentacao: "/api-docs",
         rotas: {
             eventos: "/eventos",
             participantes: "/participantes",
             inscricoes: "/inscricoes",
-            docs: "/api-docs"
+
         },
     });
 });
-
-
-
+// ============================================
+// MIDDLEWARES DE ERRO (sempre por último!)
+// ============================================
+const notFound = require("./middlewares/notFound");
+const errorHandler = require("./middlewares/errorHandler");
+app.use(notFound);
+app.use(errorHandler);
 module.exports = app;

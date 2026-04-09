@@ -34,6 +34,7 @@ function criar(dados) {
         nome: dados.nome,
         descricao: dados.descricao,
         data: dados.data,
+        local: dados.local,
         capacidade: dados.capacidade,
     };
 
