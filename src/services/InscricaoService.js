@@ -1,4 +1,4 @@
-const InscricaoModel = require("../models/inscricaoModel");
+const InscricaoModel = require("../models/InscricaoModel");
 const EventoModel = require("../models/EventoModel");
 const ParticipanteModel = require("../models/ParticipanteModel");
 const { NotFoundError, ValidationError } = require("../errors/AppError");
