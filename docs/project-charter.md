@@ -20,15 +20,15 @@ Assim, melhora a organização, a eficiência e garante que os participantes rec
 - Front-end
 - Envio de SMS ou push notifications
 ## 5. Equipe
-| Nome | Função/Responsabilidade |
-|------|------------------------|
-| [Ana Júlia Menezes] | [ex: Líder técnico, responsável pelo banco] |
-| [Lara Segatello e Maria Clara Taylor ] | [ex: Responsável pela documentação] |
-| [Maria Luiza Bassi] | [ex: Responsável pelos testes] |
+| Nome                                   | Função/Responsabilidade                                |
+|----------------------------------------|--------------------------------------------------------|                               
+| [Ana Júlia Menezes]                    | [ex: Líder técnico, responsável pelo banco]            |
+| [Lara Segatello e Maria Clara Taylor ] | [ex: Responsável pela documentação]                    |
+| [Maria Luiza Bassi]                    | [ex: Responsável pelos testes]                         |
 ## 6. Tecnologias
 Node.js, Express.js, MySQL, Sequelize, Swagger, Nodemailer, Git/GitHub
 ## 7. Prazo
-Início: [26/03/2026] | Entrega final: [10/06/2026]
+Início: [26/03/2026] | Entrega final: [20/06/2026]
 ## 8. Critérios de Sucesso
 - [ ] API funcional com todos os CRUDs
 - [ ] Dados persistidos em MySQL
