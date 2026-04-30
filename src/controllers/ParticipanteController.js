@@ -2,19 +2,19 @@ const ParticipanteService = require("../services/ParticipanteService");
 const { isRequired, minLength, isEmail, validar } = require("../helpers/validators");
 const { ValidationError, NotFoundError } = require("../errors/AppError");
 
-function index(req, res, next) {
+async function index(req, res, next) {
     try {
-        const participantes = ParticipanteService.listarTodos();
+        const participantes = await ParticipanteService.listarTodos();
         res.json(participantes);
     } catch (erro) {
         next(erro);
     }
 }
 
-function show(req, res, next) {
+async function show(req, res, next) {
     try {
         const id = parseInt(req.params.id);
-        const participante = ParticipanteService.buscarPorId(id);
+        const participante = await ParticipanteService.buscarPorId(id);
 
         if (!participante) {
             // Mudou aqui: usando a classe de erro centralizada da Aula 7
@@ -26,7 +26,7 @@ function show(req, res, next) {
     }
 }
 
-function store(req, res, next) {
+async function store(req, res, next) {
     try {
         const { nome, email } = req.body;
 
@@ -43,14 +43,14 @@ function store(req, res, next) {
         }
         // -------------------------------------
 
-        const novoParticipante = ParticipanteService.criar({ nome, email });
+        const novoParticipante = await ParticipanteService.criar({ nome, email });
         res.status(201).json(novoParticipante);
     } catch (erro) {
         next(erro);
     }
 }
 
-function update(req, res, next) {
+async function update(req, res, next) {
     try {
         const id = parseInt(req.params.id);
         const { nome, email } = req.body;
@@ -65,7 +65,7 @@ function update(req, res, next) {
             throw new ValidationError(erros.join("; "));
         }
 
-        const participanteAtualizado = ParticipanteService.atualizar(id, { nome, email });
+        const participanteAtualizado = await ParticipanteService.atualizar(id, { nome, email });
 
         if (!participanteAtualizado) {
             throw new NotFoundError("Participante");
@@ -77,10 +77,10 @@ function update(req, res, next) {
     }
 }
 
-function destroy(req, res, next) {
+async function destroy(req, res, next) {
     try {
         const id = parseInt(req.params.id);
-        const deletado = ParticipanteService.deletar(id);
+        const deletado = await ParticipanteService.deletar(id);
 
         if (!deletado) {
             throw new NotFoundError("Participante");

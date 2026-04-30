@@ -1,42 +1,41 @@
-const InscricaoService = require("../services/InscricaoService");
+const InscricaoService = require('../services/InscricaoService');
 
-function criar(req, res, next) {
-    try {
-        const novaInscricao = InscricaoService.criar(req.body);
-        res.status(201).json(novaInscricao);
-    } catch (error) {
-        next(error);
-    }
+async function store(req, res, next) {
+  try {
+    const novaInscricao = await InscricaoService.criar(req.body);
+    res.status(201).json(novaInscricao);
+  } catch (erro) {
+    next(erro);
+  }
 }
 
-function listarTodas(req, res, next) {
-    try {
-        const inscricoes = InscricaoService.listarTodas();
-        res.json(inscricoes);
-    } catch (error) {
-        next(error);
-    }
+async function index(req, res, next) {
+  try {
+    const inscricoes = await InscricaoService.listarTodas();
+    res.json(inscricoes);
+  } catch (erro) {
+    next(erro);
+  }
 }
 
-function listarPorEvento(req, res, next) {
+async function listarPorEvento(req, res, next) {
     try {
         const { eventoId } = req.params;
-        const inscricoes = InscricaoService.listarPorEvento(eventoId);
+        const inscricoes = await InscricaoService.listarPorEvento(eventoId);
         res.json(inscricoes);
     } catch (error) {
         next(error);
     }
 }
 
-function cancelar(req, res, next) {
+async function cancelar(req, res, next) {
     try {
         const { id } = req.params;
-        InscricaoService.cancelar(id);
+        await InscricaoService.cancelar(id);
         res.status(204).send(); 
     } catch (error) {
         next(error);
     }
 }
 
-
-module.exports = { store: criar, index: listarTodas, listarPorEvento, cancelar };
+module.exports = { store, index, listarPorEvento, cancelar };
