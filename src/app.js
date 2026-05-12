@@ -2,7 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swagger");
+const exportRoutes = require('./routes/exportRoutes');
+const path = require('path');
 const app = express();
+
 // ============================================
 // MIDDLEWARES GLOBAIS
 // ============================================
@@ -10,10 +13,12 @@ app.use(express.json());
 app.use(cors());
 const responseTime = require("./middlewares/responseTime");
 app.use(responseTime);
+
 // ============================================
 // DOCUMENTAÇÃO
 // ============================================
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // ============================================
 // ROTAS
 // ============================================
@@ -23,6 +28,8 @@ const inscricaoRoutes = require("./routes/inscricaoRoutes");
 app.use("/eventos", eventoRoutes);
 app.use("/participantes", participanteRoutes);
 app.use("/inscricoes", inscricaoRoutes);
+app.use('/exportar', exportRoutes);
+
 // Rota raiz (informativa)
 app.get("/", (req, res) => {
     res.json({
@@ -37,6 +44,13 @@ app.get("/", (req, res) => {
         },
     });
 });
+
+// ============================================
+// PASTA GITHUB
+// ============================================
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+
+
 // ============================================
 // MIDDLEWARES DE ERRO (sempre por último!)
 // ============================================
@@ -44,4 +58,5 @@ const notFound = require("./middlewares/notFound");
 const errorHandler = require("./middlewares/errorHandler");
 app.use(notFound);
 app.use(errorHandler);
+
 module.exports = app;

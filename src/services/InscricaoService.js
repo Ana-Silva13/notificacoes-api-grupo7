@@ -70,5 +70,51 @@ async function cancelar(id) {
     return true;
 }
 
+async function exportarParaXML() {
+  // 1. Busca no banco com os dados relacionados (JOIN)
+  const inscricoes = await Inscricao.findAll({
+    include: [
+      {
+        model: Evento,
+        as: 'evento', // Ajuste caso seu alias no model seja diferente
+        attributes: ['nome'] 
+      },
+      {
+        model: Participante,
+        as: 'participante', // Ajuste caso seu alias seja usuario, etc.
+        attributes: ['nome', 'email']
+      }
+    ]
+  });
+
+  // 2. Construção do XML
+  // Iniciamos o cabeçalho padrão do XML e a tag raiz
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml += '<inscricoes>\n';
+
+  // 3. Iteramos sobre cada registro para montar os "nós" do XML
+  inscricoes.forEach((inscricao) => {
+    xml += `  <inscricao>\n`;
+    xml += `    <id>${inscricao.id}</id>\n`;
+    xml += `    <status>${inscricao.status}</status>\n`;
+    
+    // Acessando os dados do Evento incluído
+    xml += `    <evento>${inscricao.evento.nome}</evento>\n`;
+    
+    // Acessando os dados do Participante incluído
+    xml += `    <participante>\n`;
+    xml += `      <nome>${inscricao.participante.nome}</nome>\n`;
+    xml += `      <email>${inscricao.participante.email}</email>\n`;
+    xml += `    </participante>\n`;
+    
+    xml += `  </inscricao>\n`;
+  });
+
+  // Fechamos a tag raiz
+  xml += '</inscricoes>';
+
+  return xml;
+}
+
 // Exportação correta (fora das funções)
-module.exports = { criar, listarTodas, listarPorEvento, cancelar };
+module.exports = { criar, listarTodas, listarPorEvento, cancelar, exportarParaXML };

@@ -38,4 +38,21 @@ async function cancelar(req, res, next) {
     }
 }
 
-module.exports = { store, index, listarPorEvento, cancelar };
+async function exportar(req, res) {
+  try {
+    const xmlGerado = await InscricaoService.exportarParaXML();
+
+    // Fundamental: Define o tipo de conteúdo como XML
+    res.header('Content-Type', 'application/xml');
+    
+    // Retorna o XML com status 200 (Sucesso)
+    return res.status(200).send(xmlGerado);
+
+  } catch (erro) {
+    console.error('Erro ao gerar XML:', erro);
+    // Se der erro, voltamos para o JSON para explicar o problema
+    return res.status(500).json({ erro: 'Falha ao gerar a exportação em XML.' });
+  }
+}
+
+module.exports = { store, index, listarPorEvento, cancelar, exportar };

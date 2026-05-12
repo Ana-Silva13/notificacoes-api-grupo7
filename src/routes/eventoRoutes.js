@@ -1,6 +1,22 @@
 const express = require("express");
+
 const router = express.Router();
+
 const EventoController = require("../controllers/EventoController");
+
+const upload = require('../config/upload');
+
+const cacheMiddleware = require('../middlewares/cacheMiddleware');
+
+
+
+
+
+router.get("/futuros", EventoController.listarFuturos);
+
+
+
+
 
 /**
  * @swagger
@@ -39,6 +55,8 @@ const EventoController = require("../controllers/EventoController");
  *         capacidade: 30
  */
 
+
+
 /**
  * @swagger
  * /eventos:
@@ -53,9 +71,14 @@ const EventoController = require("../controllers/EventoController");
  *             schema:
  *               type: array
  *               items:
+
  *                 $ref: '#/components/schemas/Evento'
+
  */
-router.get("/", EventoController.index);
+
+router.get("/", cacheMiddleware(30), EventoController.index);
+
+
 
 /**
  * @swagger
@@ -80,7 +103,9 @@ router.get("/", EventoController.index);
  *       404:
  *         description: Evento não encontrado
  */
-router.get("/:id", EventoController.show);
+router.get("/:id",cacheMiddleware(60), EventoController.show);
+
+
 
 /**
  * @swagger
@@ -122,6 +147,8 @@ router.get("/:id", EventoController.show);
  */
 router.post("/", EventoController.store);
 
+
+
 /**
  * @swagger
  * /eventos/{id}:
@@ -159,6 +186,8 @@ router.post("/", EventoController.store);
  */
 router.put("/:id", EventoController.update);
 
+
+
 /**
  * @swagger
  * /eventos/{id}:
@@ -178,5 +207,46 @@ router.put("/:id", EventoController.update);
  *         description: Evento não encontrado
  */
 router.delete("/:id", EventoController.destroy);
+
+
+
+
+
+
+
+// POST /eventos/:id/banner — enviar imagem do banner
+
+router.post('/:id/banner', upload.single('banner'), async (req, res, next) => {
+
+  try {
+    const { Evento } = require('../models');
+    const evento = await Evento.findByPk(req.params.id);
+
+
+    if (!evento) {
+      return res.status(404).json({ erro: 'Evento não encontrado' });
+    }
+
+
+
+    if (!req.file) {
+      return res.status(400).json({ erro: 'Nenhum arquivo enviado' });
+    }
+
+
+    // Salvar o caminho do arquivo no banco
+    await evento.update({ banner: `/uploads/${req.file.filename}` });
+
+
+    res.json({
+      mensagem: 'Banner atualizado com sucesso',
+      banner: `/uploads/${req.file.filename}`,
+    });
+
+  } catch (erro) {
+    next(erro);
+  }
+});
+
 
 module.exports = router;
