@@ -1,9 +1,10 @@
 const { Inscricao, Evento, Participante } = require('../models');
 const { NotFoundError, ValidationError } = require('../errors/AppError');
+const appEmitter = require('../events/eventEmitter');
 
 async function criar(dados) {
     // 1. Ajuste aqui: Pegando os nomes exatamente como vêm do Postman (snake_case)
-    const { evento_id, participante_id } = dados;
+    const { evento_id,   participante_id } = dados;
 
     // 2. Validar se os campos foram enviados
     if (!evento_id || !participante_id) {
@@ -29,10 +30,12 @@ async function criar(dados) {
 
     // 6. Criar a inscrição
     const novaInscricao = await Inscricao.create({
-        evento_id,
-        participante_id,
+        evento_id: evento_id,
+        participante_id: participante_id,
     });
 
+    appEmitter.emit('inscricao:criada', novaInscricao);
+    
     return novaInscricao;
 }
 
@@ -66,8 +69,10 @@ async function cancelar(id) {
     const inscricao = await Inscricao.findByPk(parseInt(id));
     if (!inscricao) throw new NotFoundError("Inscrição");
 
-    await inscricao.destroy();
-    return true;
+    await inscricao.update({ status: 'cancelada' }); 
+    appEmitter.emit('inscricao:cancelada', inscricao);
+
+    return inscricao;
 }
 
 async function exportarParaXML() {

@@ -15,9 +15,8 @@ const Inscricao = sequelize.define(
             field: "data_inscricao",
         },
         status: {
-            type: DataTypes.ENUM("confirmada", "cancelada"),
-            allowNull: false,
-            defaultValue: "confirmada",
+            type: DataTypes.STRING,
+            defaultValue: 'ativa'
         },
     },
     {

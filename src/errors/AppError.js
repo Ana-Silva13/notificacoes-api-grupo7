@@ -8,7 +8,7 @@ class AppError extends Error {
 
 class NotFoundError extends AppError {
     constructor(recurso ="Recurso") {
-        super(`${recurso} nâo encontrado(a)`, 404);
+        super(`${recurso} não encontrado(a)`, 404);
         this.name="NotFoundError";
     }
 }

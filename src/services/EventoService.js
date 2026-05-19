@@ -1,12 +1,7 @@
 const { Evento } = require('../models');
+const eventBus = require('../events/eventBus');
 const { NotFoundError, ValidationError } = require('../errors/AppError');
 
-async function listarTodos() {
-  const eventos = await Evento.findAll({
-    order: [['data', 'ASC']],
-  });
-  return eventos;
-}
 //Adicionando paginação, ordenação e busca
 async function listarTodos(opcoes = {}) {
   const {
@@ -54,6 +49,7 @@ async function buscarPorId(id) {
 async function criar(dados) {
   try {
     const novoEvento = await Evento.create(dados);
+    eventBus.emit('evento:criado', novoEvento);
     return novoEvento;
   } catch (erro) {
     // O Sequelize lança SequelizeValidationError para validações do Model
@@ -75,7 +71,7 @@ async function atualizar(id, dados) {
     return evento;
   } catch (erro) {
     if (erro.name === 'SequelizeValidationError') {
-      const mensagens = erro.errors.map(e => e.message).koin(';');
+      const mensagens = erro.errors.map(e => e.message).join(';');
       throw new ValidationError(mensagens);
     }
     throw erro;
@@ -85,7 +81,7 @@ async function atualizar(id, dados) {
 async function deletar(id) {
   const evento = await Evento.findByPk(id);
   if (!evento) {
-    throw new NotfoundError('Evento');
+    throw new NotFoundError('Evento');
   }
 
   await evento.destroy();

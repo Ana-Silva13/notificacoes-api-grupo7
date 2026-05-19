@@ -5,6 +5,8 @@ const swaggerSpec = require("./swagger");
 const exportRoutes = require('./routes/exportRoutes');
 const path = require('path');
 const app = express();
+require('./events/notificacaoObserver');
+require('./events/eventObserver');
 
 // ============================================
 // MIDDLEWARES GLOBAIS
@@ -25,10 +27,13 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 const eventoRoutes = require("./routes/eventoRoutes");
 const participanteRoutes = require("./routes/participanteRoutes");
 const inscricaoRoutes = require("./routes/inscricaoRoutes");
+const notificacaoRoutes = require('./routes/notificacaoRoutes');
 app.use("/eventos", eventoRoutes);
 app.use("/participantes", participanteRoutes);
 app.use("/inscricoes", inscricaoRoutes);
 app.use('/exportar', exportRoutes);
+app.use('/notificacoes', notificacaoRoutes);
+
 
 // Rota raiz (informativa)
 app.get("/", (req, res) => {
@@ -40,7 +45,7 @@ app.get("/", (req, res) => {
             eventos: "/eventos",
             participantes: "/participantes",
             inscricoes: "/inscricoes",
-
+            notificacoes: "/notificacoes"
         },
     });
 });
