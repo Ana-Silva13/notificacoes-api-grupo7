@@ -80,6 +80,8 @@ const { Participante } = require('../models');
 
 const { NotFoundError } = require('../errors/AppError');
 
+const appEmitter = require('../events/eventEmitter');
+
 async function listarTodos() {
     return await Participante.findAll({ order: [['nome', 'ASC']] });
 }
@@ -99,6 +101,8 @@ async function buscarPorId(id) {
 async function criar(dados) {
    try {
     const novoParticipante = await Participante.create(dados);
+    // Emitir evento para observers (e-mail de boas-vindas, etc.)
+    appEmitter.emit('participante:criado', novoParticipante);
     return novoParticipante;
   } catch (error) {
     if (error.name === 'SequelizeValidationError') {
