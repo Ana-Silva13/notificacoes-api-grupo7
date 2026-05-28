@@ -61,7 +61,7 @@ async function reenviar(id) {
   const html = notificacao.conteudo;
 
   const resultado = await EmailService.enviar(
-    notificacao.destinatario_email,
+    notificacao.destinatarioEmail,
     notificacao.assunto,
     html
   );

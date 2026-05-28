@@ -41,10 +41,10 @@ appEmitter.on('inscricao:criada', async (inscricao) => {
     await salvarNotificacao({
       inscricao_id: inscricao.id,
       tipo: 'confirmacao',
-      destinatario_email: participante.email,
+      destinatarioEmail: participante.email,
       assunto,
       conteudo: html,
-      data_envio: new Date(),
+      dataEnvio: new Date(),
       enviada: true,
     });
     
@@ -94,11 +94,11 @@ appEmitter.on('inscricao:cancelada', async (inscricao) => {
 
     await salvarNotificacao({
       inscricao_id: inscricao.id,
-      tipo: 'confirmacao',
-      destinatario_email: participante.email,
+      tipo: 'cancelamento',
+      destinatarioEmail: participante.email,
       assunto,
       conteudo: html,
-      data_envio: new Date(),
+      dataEnvio: new Date(),
       enviada: true,
     });
 
@@ -112,5 +112,3 @@ appEmitter.on('inscricao:cancelada', async (inscricao) => {
   }
 
 });
-
-appEmitter

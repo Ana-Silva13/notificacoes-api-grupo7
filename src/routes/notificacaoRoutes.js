@@ -1,8 +1,52 @@
 const express = require('express');
 const router = express.Router();
 const NotificacaoService = require('../services/NotificacaoService');
-const EmailService = require('../services/EmailService');
 
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Notificacao:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         tipo:
+ *           type: string
+ *           enum: [confirmacao, lembrete]
+ *         destinatario_email:
+ *           type: string
+ *         assunto:
+ *           type: string
+ *         enviada:
+ *           type: boolean
+ *         data_envio:
+ *           type: string
+ *           format: date-time
+ */
+
+/**
+ * @swagger
+ * /notificacoes:
+ *   get:
+ *     summary: Listar notificações
+ *     tags: [Notificações]
+ *     parameters:
+ *       - in: query
+ *         name: tipo
+ *         schema:
+ *           type: string
+ *           enum: [confirmacao, lembrete]
+ *       - in: query
+ *         name: enviada
+ *         schema:
+ *           type: string
+ *           enum: [true, false]
+ *     responses:
+ *       200:
+ *         description: Lista de notificações
+ */
 // GET /notificacoes — listar com filtros
 router.get('/', async (req, res, next) => {
   try {
@@ -16,6 +60,16 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+/**
+ * @swagger
+ * /notificacoes/estatisticas:
+ *   get:
+ *     summary: Estatísticas de envio
+ *     tags: [Notificações]
+ *     responses:
+ *       200:
+ *         description: Contagens de notificações
+ */
 // GET /notificacoes/estatisticas — dashboard de envios
 router.get('/estatisticas', async (req, res, next) => {
   try {
@@ -26,6 +80,25 @@ router.get('/estatisticas', async (req, res, next) => {
   }
 });
 
+/**
+ * @swagger
+ * /notificacoes/{id}:
+ *   get:
+ *     summary: Buscar evento por ID
+ *     tags: [Notificacoes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do evento
+ *     responses:
+ *       200:
+ *         description: Notificacao encontrada
+ *       404:
+ *         description: Notificacao não encontrada
+ */
 // GET /notificacoes/:id — detalhes de uma notificação
 router.get('/:id', async (req, res, next) => {
   try {
@@ -36,6 +109,24 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+/**
+ * @swagger
+ * /notificacoes/{id}/reenviar:
+ *   post:
+ *     summary: Reenviar uma notificação
+ *     tags: [Notificações]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Notificação reenviada
+ *       404:
+ *         description: Notificação não encontrada
+ */
 // POST /notificacoes/:id/reenviar — reenviar uma notificação
 router.post('/:id/reenviar', async (req, res, next) => {
   try {

@@ -4,24 +4,24 @@ const appEmitter = require('../events/eventEmitter');
 
 async function criar(dados) {
     // 1. Ajuste aqui: Pegando os nomes exatamente como vêm do Postman (snake_case)
-    const { evento_id,   participante_id } = dados;
+    const { eventoId,   participanteId } = dados;
 
     // 2. Validar se os campos foram enviados
-    if (!evento_id || !participante_id) {
+    if (!eventoId || !participanteId) {
         throw new ValidationError('ID do evento e do participante são obrigatórios');
     }
 
     // 3. Verificar se o evento existe
-    const evento = await Evento.findByPk(evento_id);
+    const evento = await Evento.findByPk(eventoId);
     if (!evento) throw new NotFoundError('Evento');
 
     // 4. Verificar se o participante existe
-    const participante = await Participante.findByPk(participante_id);
+    const participante = await Participante.findByPk(participanteId);
     if (!participante) throw new NotFoundError('Participante');
 
     // 5. Verificar duplicata
     const jaInscrito = await Inscricao.findOne({
-        where: { evento_id, participante_id }
+        where: { evento_id: eventoId, participante_id: participanteId }
     });
     
     if (jaInscrito) {
@@ -30,8 +30,8 @@ async function criar(dados) {
 
     // 6. Criar a inscrição
     const novaInscricao = await Inscricao.create({
-        evento_id: evento_id,
-        participante_id: participante_id,
+        evento_id: eventoId,
+        participante_id: participanteId,
     });
 
     appEmitter.emit('inscricao:criada', novaInscricao);
