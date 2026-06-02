@@ -2,11 +2,8 @@ const express = require("express");
 const router = express.Router();
 const ParticipanteController = require("../controllers/ParticipanteController");
 
-router.get("/", ParticipanteController.index);
-router.get("/:id", ParticipanteController.show);
-router.post("/", ParticipanteController.store);
-router.put("/:id", ParticipanteController.update);
-router.delete("/:id", ParticipanteController.destroy);
+
+
 
 /**
  * @swagger
@@ -31,6 +28,21 @@ router.delete("/:id", ParticipanteController.destroy);
  *         id: 1
  *         nome: Ana Silva
  *         email: ana@email.com
+ *     Erro:
+ *       type: object
+ *       properties:
+ *         erro:
+ *           type: object
+ *           properties:
+ *             tipo:
+ *               type: string
+ *               example: NotFoundError
+ *             mensagem:
+ *               type: string
+ *               example: Participante não encontrado(a)
+ *             statusCode:
+ *               type: integer
+ *               example: 404
  */
 
 /**
@@ -49,7 +61,7 @@ router.delete("/:id", ParticipanteController.destroy);
  *               items:
  *                 $ref: '#/components/schemas/Participante'
  */
-
+router.get("/", ParticipanteController.index);
 /**
  * @swagger
  * /participantes/{id}:
@@ -72,8 +84,13 @@ router.delete("/:id", ParticipanteController.destroy);
  *               $ref: '#/components/schemas/Participante'
  *       404:
  *         description: Participante não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Erro'
  */
 
+router.get("/:id", ParticipanteController.show);
 /**
  * @swagger
  * /participantes:
@@ -93,8 +110,10 @@ router.delete("/:id", ParticipanteController.destroy);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Participante'
+ *       
+ *    
  */
-
+router.post("/", ParticipanteController.store);
 /**
  * @swagger
  * /participantes/{id}:
@@ -123,8 +142,13 @@ router.delete("/:id", ParticipanteController.destroy);
  *               $ref: '#/components/schemas/Participante'
  *       404:
  *         description: Participante não encontrado
+ *          content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Erro'
+ * 
  */
-
+router.put("/:id", ParticipanteController.update);
 /**
  * @swagger
  * /participantes/{id}:
@@ -143,6 +167,11 @@ router.delete("/:id", ParticipanteController.destroy);
  *         description: Participante deletado com sucesso
  *       404:
  *         description: Participante não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Erro'
  */
+router.delete("/:id", ParticipanteController.destroy);
 
 module.exports = router;

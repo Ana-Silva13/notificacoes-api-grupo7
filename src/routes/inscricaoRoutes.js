@@ -26,6 +26,21 @@ const InscricaoController = require("../controllers/InscricaoController");
  *         participanteId: 1
  *         dataInscricao: "2025-08-01T10:30:00.000Z"
  *         status: confirmada
+ *     Erro:
+ *       type: object
+ *       properties:
+ *         erro:
+ *           type: object
+ *           properties:
+ *             tipo:
+ *               type: string
+ *               example: NotFoundError
+ *             mensagem:
+ *               type: string
+ *               example: Inscrição não encontrada(o)
+ *             statusCode:
+ *               type: integer
+ *               example: 404
  */
 
 /**
@@ -59,6 +74,10 @@ const InscricaoController = require("../controllers/InscricaoController");
  *               $ref: '#/components/schemas/Inscricao'
  *       400:
  *         description: Dados inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Erro'
  */
 router.post("/", InscricaoController.store);
 
@@ -127,6 +146,10 @@ router.get("/evento/:eventoId", InscricaoController.listarPorEvento);
  *               $ref: '#/components/schemas/Inscricao'
  *       404:
  *         description: Inscrição não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Erro'
  */
 router.patch("/:id/cancelar", InscricaoController.cancelar);
 

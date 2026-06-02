@@ -24,6 +24,21 @@ const NotificacaoService = require('../services/NotificacaoService');
  *         data_envio:
  *           type: string
  *           format: date-time
+ *     Erro:
+ *       type: object
+ *       properties:
+ *         erro:
+ *           type: object
+ *           properties:
+ *             tipo:
+ *               type: string
+ *               example: NotFoundError
+ *             mensagem:
+ *               type: string
+ *               example: Evento não encontrado(a)
+ *             statusCode:
+ *               type: integer
+ *               example: 404
  */
 
 /**
@@ -98,6 +113,10 @@ router.get('/estatisticas', async (req, res, next) => {
  *         description: Notificacao encontrada
  *       404:
  *         description: Notificacao não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Erro'
  */
 // GET /notificacoes/:id — detalhes de uma notificação
 router.get('/:id', async (req, res, next) => {
@@ -126,6 +145,10 @@ router.get('/:id', async (req, res, next) => {
  *         description: Notificação reenviada
  *       404:
  *         description: Notificação não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Erro'
  */
 // POST /notificacoes/:id/reenviar — reenviar uma notificação
 router.post('/:id/reenviar', async (req, res, next) => {

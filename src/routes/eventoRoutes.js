@@ -1,20 +1,12 @@
 const express = require("express");
-
 const router = express.Router();
-
 const EventoController = require("../controllers/EventoController");
-
 const upload = require('../config/upload');
-
 const cacheMiddleware = require('../middlewares/cacheMiddleware');
 
 
 
-
-
 router.get("/futuros", EventoController.listarFuturos);
-
-
 
 
 
@@ -53,9 +45,23 @@ router.get("/futuros", EventoController.listarFuturos);
  *         data: "2025-08-15"
  *         local: SENAI - Sala 3
  *         capacidade: 30
+ *     Erro:
+ *       type: object
+ *       properties:
+ *         erro:
+ *           type: object
+ *           properties:
+ *             tipo:
+ *               type: string
+ *               example: NotFoundError
+ *             mensagem:
+ *               type: string
+ *               example: Evento não encontrado(a)
+ *             statusCode:
+ *               type: integer
+ *               example: 404
  */
-
-
+ 
 
 /**
  * @swagger
@@ -102,6 +108,10 @@ router.get("/", cacheMiddleware(30), EventoController.index);
  *               $ref: '#/components/schemas/Evento'
  *       404:
  *         description: Evento não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Erro'
  */
 router.get("/:id",cacheMiddleware(60), EventoController.show);
 
@@ -142,8 +152,16 @@ router.get("/:id",cacheMiddleware(60), EventoController.show);
  *     responses:
  *       201:
  *         description: Evento criado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Evento'
  *       400:
  *         description: Dados inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Erro'
  */
 router.post("/", EventoController.store);
 
@@ -181,8 +199,16 @@ router.post("/", EventoController.store);
  *     responses:
  *       200:
  *         description: Evento atualizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Evento'
  *       404:
  *         description: Evento não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Erro'
  */
 router.put("/:id", EventoController.update);
 
@@ -203,17 +229,79 @@ router.put("/:id", EventoController.update);
  *     responses:
  *       204:
  *         description: Evento deletado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Evento'
  *       404:
  *         description: Evento não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Erro'
  */
+ 
 router.delete("/:id", EventoController.destroy);
 
 
 
 
 
-
-
+/**
+ * @swagger
+ * /eventos:
+ *   get:
+ *     summary: Listar eventos com paginação e filtros
+ *     tags: [Eventos]
+ *     parameters:
+ *       - in: query
+ *         name: pagina
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Número da página
+ *       - in: query
+ *         name: porPagina
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Itens por página
+ *       - in: query
+ *         name: busca
+ *         schema:
+ *           type: string
+ *         description: Buscar por nome do evento
+ *       - in: query
+ *         name: ordenarPor
+ *         schema:
+ *           type: string
+ *           default: data
+ *         description: Campo para ordenação
+ *       - in: query
+ *         name: ordem
+ *         schema:
+ *           type: string
+ *           enum: [ASC, DESC]
+ *           default: ASC
+ *     responses:
+ *       200:
+ *         description: Lista paginada de eventos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 dados:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Evento'
+ *                 total:
+ *                   type: integer
+ *                 pagina:
+ *                   type: integer
+ *                 totalPaginas:
+ *                   type: integer
+ */
 // POST /eventos/:id/banner — enviar imagem do banner
 
 router.post('/:id/banner', upload.single('banner'), async (req, res, next) => {
