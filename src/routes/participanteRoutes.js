@@ -2,9 +2,6 @@ const express = require("express");
 const router = express.Router();
 const ParticipanteController = require("../controllers/ParticipanteController");
 
-
-
-
 /**
  * @swagger
  * components:
@@ -62,6 +59,7 @@ const ParticipanteController = require("../controllers/ParticipanteController");
  *                 $ref: '#/components/schemas/Participante'
  */
 router.get("/", ParticipanteController.index);
+
 /**
  * @swagger
  * /participantes/{id}:
@@ -89,8 +87,8 @@ router.get("/", ParticipanteController.index);
  *             schema:
  *               $ref: '#/components/schemas/Erro'
  */
-
 router.get("/:id", ParticipanteController.show);
+
 /**
  * @swagger
  * /participantes:
@@ -114,6 +112,7 @@ router.get("/:id", ParticipanteController.show);
  *    
  */
 router.post("/", ParticipanteController.store);
+
 /**
  * @swagger
  * /participantes/{id}:
@@ -142,13 +141,13 @@ router.post("/", ParticipanteController.store);
  *               $ref: '#/components/schemas/Participante'
  *       404:
  *         description: Participante não encontrado
- *          content:
+ *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Erro'
- * 
+ *               $ref: '#/components/schemas/Erro' 
  */
 router.put("/:id", ParticipanteController.update);
+
 /**
  * @swagger
  * /participantes/{id}:
