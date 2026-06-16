@@ -24,9 +24,9 @@
 - [☑️] .gitignore está correto
 ## Dívidas Técnicas Encontradas
 
-| #  | Descrição                                                    | Arquivo                                     | Prioridade | Responsável |
-| ---| ------------------------------------------------------------ | ------------------------------------------- | ---------  | ----------- |
+| #  | Descrição                                                    | Arquivo                                         | Prioridade | Responsável |
+| ---| ------------------------------------------------------------ | -------------------------------------------     | ---------  | ----------- |
 | 1  | Palavras ou termos em locais inapropriados                   | Controllers/, Services/ e pequenos arquivos | Alta       | Todas       |
-| 2  | testes com informações erradas ou desconhecidas              | Insomnia                                    | Alta       | @lara, @ana | 
-| 3  | confusão ou esquecimento de requerimentos perante o código   | Todos                                       | Alta       | Todas       |
-| 4  | presença de erros de rota imperceptíveis                     | Routes/                                     | Alta       | Todas       | 
+| 2  | testes com informações erradas ou desconhecidas              | Insomnia                                        | Alta       | @lara, @ana | 
+| 3  | confusão ou esquecimento de requerimentos perante o código   | Todos                                           | Alta       | Todas       |
+| 4  | presença de erros de rota imperceptíveis                     | Routes/                                         | Alta       | Todas       | 
