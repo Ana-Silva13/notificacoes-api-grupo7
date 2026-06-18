@@ -30,10 +30,9 @@ Node.js, Express.js, MySQL, Sequelize, Swagger, Nodemailer, Git/GitHub
 ## 7. Prazo
 Início: [26/03/2026] | Entrega final: [20/06/2026]
 ## 8. Critérios de Sucesso
-- [ ] API funcional com todos os CRUDs
-- [ ] Dados persistidos em MySQL
-- [ ] Notificações por e-mail funcionando (simulado)
-- [ ] Documentação Swagger completa
-
-- [ ] Deploy realizado
-- [ ] Apresentação aprovada
+- [✅ ] API funcional com todos os CRUDs
+- [✅ ] Dados persistidos em MySQL
+- [✅ ] Notificações por e-mail funcionando (simulado)
+- [✅ ] Documentação Swagger completa
+- [✅ ] Deploy realizado
+- [Não teve apresentação ] Apresentação aprovada
