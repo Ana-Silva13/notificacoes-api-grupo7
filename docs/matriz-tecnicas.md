@@ -2,7 +2,7 @@ Nomes: Ana Júlia Menezes, Lara Segatello, Maria Clara Taylor e Maria Luiza Bass
 
 # PARTE 1 - MATRIZ TÉCNICA X CAMADA
 
-## AUTENTIFICAÇÃO
+## Autenticação
 
 Camada / grupo de rotas: AUTENTIFICAÇÃO
 Regressão: Alta
@@ -15,7 +15,7 @@ Justificativa: Regressão (ALTA): Garante que alterações no código não quebr
 Segurança (ALTA): Porta de entrada da aplicação. Falhas aqui expõem credenciais e permitem acesso indevido.
 Recuperação / Estresse (FORA DO ESCOPO): Foco em testes funcionais e de segurança na UC; a infraestrutura de autenticação não demanda testes de queda controlada ou carga extrema neste momento.
 
-## NOTIFICAÇÕES 
+## Notificações 
 
 Camada / grupo de rotas: NOTIFICAÇÕES
 Regressão: Alta
@@ -51,7 +51,7 @@ Justificativa: Regressão (ALTA): Regra de negócio crítica (inscrição/cancel
 Segurança (ALTA): Exige token e precisa impedir que um usuário inscreva outro ou acesse dados de terceiros. Maior risco de acesso indevido do módulo. 
 Recuperação / Estresse / Paralelo (FORA DO ESCOPO): Foco em garantir controle de acesso antes de analisar concorrência extrema de inscrições.
 
-## ENVIO DE E-MAIL(NODEMAILER/MAILPIT)
+## Envio de E-mail (NODEMAILER/MAILPIT)
 
 Camada / grupo de rotas: ENVIO DE E-MAIL(NODEMAILER/MAILPIT) 
 Regressão: Média
@@ -63,7 +63,7 @@ Paralelo: Média
 Justificativa: Performance (ALTA): Disparos de e-mail são assíncronos e podem gargalar a aplicação caso a fila/envio seja lento.
 Recuperação / Estresse (FORA DO ESCOPO): O MailPit é uma ferramenta de mock em ambiente de desenvolvimento, não sendo adequado para estresse real.
 
-## CAMADA DE DADOS (MODELS + MYSQL)
+## Camada de Dados (MODELS + MYSQL)
 
 Camada / grupo de rotas: CAMADA DE DADOS (MODELS + MYSQL)
 Regressão: Alta
