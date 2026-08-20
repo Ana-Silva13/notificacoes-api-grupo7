@@ -179,6 +179,7 @@ Arquivos encontrados: 1778515836380-807976860.png
 Responsivilidade (em uma frase): Armazenar arquivos enviados pelos usuários, como imagens e documentos, garantindo que estejam acessíveis para uso posterior na aplicação.
 
 #  | Método | Caminho                   | Exige Token? | Controller            | Service             | Model(s)         | Efeito Colateral                           |
+---|--------|---------------------------|--------------|-----------------------|---------------------|------------------|--------------------------------------------|
 1  | POST   |   /auth/login             |      Não     | AuthController        | AuthService         | UserModel        | Gera token                                 |
 2  |  GET   |  /eventos                 |      Não     | EventoController      | EventoService       | EventoModel      | Nenhum                                     |
 3  |  POST  |  /eventos                 |      Sim     | EventoController      | EventoService       | EventoModel      | Cria evento                                |
