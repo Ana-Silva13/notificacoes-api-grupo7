@@ -15,6 +15,15 @@ const options = {
                 description: "Servidor de desenvolvimento",
             },
         ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT",
+                },
+            },
+        },
     },
     // Onde o Swagger vai procurar os comentários de documentação
     apis: ["./src/routes/*.js"],

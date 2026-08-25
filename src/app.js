@@ -5,8 +5,10 @@ const swaggerSpec = require("./swagger");
 const exportRoutes = require('./routes/exportRoutes');
 const path = require('path');
 const app = express();
+const authRoutes = require("./routes/authRoutes");
 require('./events/notificacaoObserver');
 require('./events/eventObserver');
+
 
 // ============================================
 // MIDDLEWARES GLOBAIS
@@ -15,6 +17,7 @@ app.use(express.json());
 app.use(cors());
 const responseTime = require("./middlewares/responseTime");
 app.use(responseTime);
+app.use("/auth", authRoutes);
 
 // ============================================
 // DOCUMENTAÇÃO

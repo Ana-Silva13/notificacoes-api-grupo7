@@ -171,6 +171,6 @@ router.put("/:id", ParticipanteController.update);
  *             schema:
  *               $ref: '#/components/schemas/Erro'
  */
-router.delete("/:id", ParticipanteController.destroy);
+router.delete("/:id",  ParticipanteController.destroy);
 
 module.exports = router;

@@ -3,6 +3,7 @@ const router = express.Router();
 const EventoController = require("../controllers/EventoController");
 const upload = require('../config/upload');
 const cacheMiddleware = require('../middlewares/cacheMiddleware');
+const authMiddleware = require("../middlewares/authMiddleware");
 
 
 
@@ -61,7 +62,7 @@ router.get("/futuros", EventoController.listarFuturos);
  *               type: integer
  *               example: 404
  */
- 
+
 
 /**
  * @swagger
@@ -113,7 +114,7 @@ router.get("/", cacheMiddleware(30), EventoController.index);
  *             schema:
  *               $ref: '#/components/schemas/Erro'
  */
-router.get("/:id",cacheMiddleware(60), EventoController.show);
+router.get("/:id", cacheMiddleware(60), EventoController.show);
 
 
 
@@ -123,6 +124,8 @@ router.get("/:id",cacheMiddleware(60), EventoController.show);
  *   post:
  *     summary: Criar um novo evento
  *     tags: [Eventos]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -163,7 +166,7 @@ router.get("/:id",cacheMiddleware(60), EventoController.show);
  *             schema:
  *               $ref: '#/components/schemas/Erro'
  */
-router.post("/", EventoController.store);
+router.post("/", authMiddleware, EventoController.store);
 
 
 
@@ -173,6 +176,8 @@ router.post("/", EventoController.store);
  *   put:
  *     summary: Atualizar um evento
  *     tags: [Eventos]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -210,7 +215,7 @@ router.post("/", EventoController.store);
  *             schema:
  *               $ref: '#/components/schemas/Erro'
  */
-router.put("/:id", EventoController.update);
+router.put("/:id", authMiddleware, EventoController.update);
 
 
 
@@ -220,6 +225,8 @@ router.put("/:id", EventoController.update);
  *   delete:
  *     summary: Deletar um evento
  *     tags: [Eventos]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -240,8 +247,8 @@ router.put("/:id", EventoController.update);
  *             schema:
  *               $ref: '#/components/schemas/Erro'
  */
- 
-router.delete("/:id", EventoController.destroy);
+
+router.delete("/:id", authMiddleware,  EventoController.destroy);
 
 
 
@@ -253,6 +260,8 @@ router.delete("/:id", EventoController.destroy);
  *   get:
  *     summary: Listar eventos com paginação e filtros
  *     tags: [Eventos]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: pagina
@@ -304,7 +313,7 @@ router.delete("/:id", EventoController.destroy);
  */
 // POST /eventos/:id/banner — enviar imagem do banner
 
-router.post('/:id/banner', upload.single('banner'), async (req, res, next) => {
+router.post('/:id/banner', authMiddleware, upload.single('banner'), async (req, res, next) => {
 
   try {
     const { Evento } = require('../models');
@@ -335,6 +344,8 @@ router.post('/:id/banner', upload.single('banner'), async (req, res, next) => {
     next(erro);
   }
 });
+
+
 
 
 module.exports = router;
