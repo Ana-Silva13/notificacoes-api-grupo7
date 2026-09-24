@@ -70,11 +70,12 @@ Melhor planejamento e organização para um projeto eficiente e e eficaz
 *Decisões: Mitigar, Aceitar, Transferir, Evitar
 
 ### 4.2 Top 5 itens de maior risco (Prioridades de trabalho)
-1. Processamento de tarefas na fila Redis/Bull (Risco: 20)
-2. Validação do token JWT no middleware (Risco: 15)
+1. Sanitização de dados de entrada contra Injection (Risco: 10)
+2. Disparo de e-mail de confirmação de inscrição (Risco: 12)
 3. Tratamento de falhas e re-tentativas de e-mail (Risco: 12)
-4. Disparo de e-mail de confirmação de inscrição (Risco: 12)
-5. Sanitização de dados de entrada contra Injection (Risco: 10)
+4. Validação do token JWT no middleware (Risco: 15)
+5. Processamento de tarefas na fila Redis/Bull (Risco: 20)
+
 
 ### 4.3 Consequências assumidas para itens com decisão "Aceitar"
 * **Item 6:** Assumimos que eventuais falhas na gravação de preferências farão o usuário receber notificações no padrão (default) até que edite novamente.
